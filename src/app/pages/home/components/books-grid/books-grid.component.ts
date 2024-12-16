@@ -11,7 +11,7 @@ import { BehaviorSubject }                   from 'rxjs'
 import { fadeInOut }              from '../../../../animations/fadeInOut'
 import { listAnimation }          from '../../../../animations/listAnimation'
 import { BooksFilterPipe }        from '../../../../pipes/books-filter-pipe/books-filter.pipe'
-import { Book }                   from '../../../../types/global'
+import { Book }                   from '../../../../types/book'
 import { BooksGridItemComponent } from '../books-grid-item/books-grid-item.component'
 
 
@@ -42,6 +42,6 @@ import { BooksGridItemComponent } from '../books-grid-item/books-grid-item.compo
 })
 export class BooksGridComponent {
   public search = signal<string>('')
-  private bookService = inject(BookService)
-  public books: BehaviorSubject<Book[]> = this.bookService.books
+  private bookService: BookService = inject(BookService)
+  public readonly books: BehaviorSubject<Book[]> = this.bookService.books
 }

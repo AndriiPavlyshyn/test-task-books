@@ -9,11 +9,9 @@ import {
   BookFormComponent,
 }                                                                               from '@pages/home/components/book-form/book-form.component'
 import { BookService }                                                          from '@services/book.service'
-import {
-  TruncatePipe,
-}                                                                               from '../../../../pipes/truncate-pipe/truncate.pipe'
 
-import { Book } from '../../../../types/global'
+import { TruncatePipe } from '../../../../pipes/truncate-pipe/truncate.pipe'
+import { Book }          from '../../../../types/book'
 
 
 @Component({
@@ -33,8 +31,8 @@ import { Book } from '../../../../types/global'
 })
 export class BooksGridItemComponent {
   public book = input<Book>()
-  private dialog = inject(MatDialog)
-  private bookService = inject(BookService)
+  private dialog: MatDialog = inject(MatDialog)
+  private bookService: BookService = inject(BookService)
 
   public onEdit(): void {
     this.dialog.open(BookFormComponent, {

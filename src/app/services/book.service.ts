@@ -3,8 +3,9 @@ import { MatDialog }              from '@angular/material/dialog'
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component'
 import { booksPlaceholder }       from '@shared/temp/books-placeholder'
 import { BehaviorSubject }        from 'rxjs'
+import { Book }                   from '../types/book'
 
-import { Book, Maybe } from '../types/global'
+import { Maybe } from '../types/global'
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import { Book, Maybe } from '../types/global'
 })
 export class BookService {
   public books = new BehaviorSubject<Book[]>(booksPlaceholder)
-  private dialog = inject(MatDialog)
+  private dialog: MatDialog = inject(MatDialog)
 
   public addBook(book: Book): void {
     const books: Book[] = this.books.getValue()

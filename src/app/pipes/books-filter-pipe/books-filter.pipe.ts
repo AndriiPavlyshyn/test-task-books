@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-
-import { Book } from '../../types/global'
+import { Book }                from '../../types/book'
 
 
 @Pipe({

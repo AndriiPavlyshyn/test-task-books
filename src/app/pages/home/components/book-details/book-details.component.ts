@@ -18,7 +18,7 @@ import {
 }                            from '@services/book.service'
 import {
   Book,
-}                            from '../../../../types/global'
+}                            from '../../../../types/book'
 
 
 @Component({
@@ -36,7 +36,7 @@ import {
 })
 export class BookDetailsComponent {
   public readonly dialogData: { book: Book } = inject(MAT_DIALOG_DATA)
-  private dialog = inject(MatDialog)
+  private dialog: MatDialog = inject(MatDialog)
   private readonly bookService: BookService = inject(BookService)
 
   public onDelete(): void {
