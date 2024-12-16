@@ -9,7 +9,9 @@ import {
   BookFormComponent,
 }                                                                               from '@pages/home/components/book-form/book-form.component'
 import { BookService }                                                          from '@services/book.service'
-import { TruncatePipe }                                                         from '../../../../pipes/truncate.pipe'
+import {
+  TruncatePipe,
+}                                                                               from '../../../../pipes/truncate-pipe/truncate.pipe'
 
 import { Book } from '../../../../types/global'
 

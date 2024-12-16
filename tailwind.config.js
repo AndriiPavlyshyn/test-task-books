@@ -6,11 +6,21 @@ module.exports = {
   important: true,
   theme: {
     extend: {},
+    screens: {
+      'mobile-small': '320px',
+      'mobile-medium': '375px',
+      'mobile-large': '480px',
+      'tablet': '640px',
+      'tablet-medium': '768px',
+      'tablet-large': '960px',
+      'laptop': '1200px',
+      'desktop': '1440px',
+    },
     container: {
       padding: '15px',
       screens: {
-        xl: '1320px'
-      }
+        xl: '1320px',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],
