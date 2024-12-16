@@ -8,9 +8,10 @@
 
 <ng-container *ngIf="(books | async) || [] | booksFilterPipe: search() as bookList">
   @if (bookList.length) {
-    <div @listAnimation
-         class="books-grid grid mobile-small:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-3 py-3">
-      @for (book of (books | async) || [] | booksFilterPipe: search(); track book?.id) {
+    <div
+      @listAnimation
+      class="books-grid grid mobile-small:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-3 py-3">
+      @for (book of bookList; track book?.id) {
         <app-books-grid-item @fadeInOut [book]="book" />
       }
     </div>
