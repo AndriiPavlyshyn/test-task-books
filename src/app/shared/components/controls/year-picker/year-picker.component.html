@@ -1,0 +1,18 @@
+<mat-form-field class="w-full">
+  <mat-label>{{ label() }}</mat-label>
+  <input
+    matInput
+    placeholder="YYYY"
+    [(ngModel)]="selectedYear"
+    [matDatepicker]="yearPicker"
+    (focus)="yearPicker?.open()"
+  />
+  <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+  <mat-datepicker
+    #yearPicker
+    color="primary"
+    startView="multi-year"
+    (yearSelected)="onYearSelected($event, yearPicker)"
+    [startAt]="minDate()"
+  ></mat-datepicker>
+</mat-form-field>

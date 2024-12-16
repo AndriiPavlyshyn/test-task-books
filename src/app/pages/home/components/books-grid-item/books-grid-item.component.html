@@ -1,0 +1,16 @@
+<mat-card appearance="outlined" class="h-full flex flex-col justify-between group">
+  <mat-card-header (click)="showDetails()" class="cursor-pointer">
+    <mat-card-title class="font-black mb-1.5">{{ book()?.title }}</mat-card-title>
+    <mat-card-subtitle>Year: {{ book()?.year }}</mat-card-subtitle>
+    <mat-card-subtitle>Author: {{ book()?.author }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content class="my-4">
+    {{ book()?.notes | truncate:35 }}
+  </mat-card-content>
+
+  <mat-card-footer class="flex justify-between p-3 opacity-0 group-hover:opacity-100 duration-300">
+    <button (click)="onEdit()" mat-flat-button>Edit</button>
+    <button (click)="onDelete()" mat-button>Delete</button>
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,19 @@
+<mat-form-field class="w-full" matIconPrefix>
+  <mat-label>Search by title or author</mat-label>
+
+  <input [(ngModel)]="search" matInput placeholder="Search by title or author">
+
+  <mat-icon fontIcon="search" matPrefix></mat-icon>
+</mat-form-field>
+
+@if (filteredBooks().length) {
+  <div @listAnimation class="books-grid grid grid-cols-3 gap-3 py-3">
+    @for (book of filteredBooks(); track book?.id) {
+      <app-books-grid-item @fadeInOut [book]="book" />
+    }
+  </div>
+} @else {
+  <div class="no-books flex items-center justify-center h-[50vh]">
+    <h3 class="text-center">Books list is empty.</h3>
+  </div>
+}

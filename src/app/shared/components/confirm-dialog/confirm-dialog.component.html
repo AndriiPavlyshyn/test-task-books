@@ -1,0 +1,11 @@
+<p mat-dialog-title>{{ dialogData.title }}</p>
+
+<mat-dialog-actions>
+  <button
+    (click)="confirmDeletion()"
+    mat-button
+  >
+    Yes
+  </button>
+  <button cdkFocusInitial mat-button mat-dialog-close>No</button>
+</mat-dialog-actions>

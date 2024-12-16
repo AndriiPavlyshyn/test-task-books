@@ -1,0 +1,11 @@
+@for(error of errorsKeys; track error) {
+  @switch (error.toLowerCase()) {
+    @case ('minlength') {
+      Min length is {{ control()?.errors?.minlength.requiredLength }} letters
+      <strong>({{ control()?.errors?.minlength.actualLength }} / {{ control()?.errors?.minlength.requiredLength }})</strong>
+    }
+    @case ('required') {
+      This field is required.
+    }
+  }
+}

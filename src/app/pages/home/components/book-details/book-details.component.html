@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>{{ dialogData.book.title }}</h2>
+<mat-dialog-content>
+  <p class="text-xl"><strong>Author:</strong> {{ dialogData.book.author }}</p>
+  @if (dialogData.book.year) {
+    <p><strong>Year:</strong> {{ dialogData.book.year }}</p>
+  }
+
+  @if (dialogData.book.notes) {
+    <strong>Notes:</strong>
+    <p>{{ dialogData.book.notes }}</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    (click)="onDelete()"
+    mat-button
+  >
+    Delete book
+  </button>
+
+  <button
+    (click)="onEdit()"
+    mat-button
+  >
+    Edit book
+  </button>
+</mat-dialog-actions>
