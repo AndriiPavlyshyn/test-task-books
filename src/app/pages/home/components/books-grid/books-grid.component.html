@@ -7,7 +7,7 @@
 </mat-form-field>
 
 @if (filteredBooks().length) {
-  <div @listAnimation class="books-grid grid grid-cols-3 gap-3 py-3">
+  <div @listAnimation class="books-grid grid mobile-small:grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-3 py-3">
     @for (book of filteredBooks(); track book?.id) {
       <app-books-grid-item @fadeInOut [book]="book" />
     }
