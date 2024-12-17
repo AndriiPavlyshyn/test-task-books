@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
-import { Maybe } from '../types/global'
+import { Maybe } from '../../types/global'
 
 
 @Pipe({

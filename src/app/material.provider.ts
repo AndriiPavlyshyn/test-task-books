@@ -1,16 +1,19 @@
-import { Provider } from '@angular/core'
-import { MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox'
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
-import { MAT_PAGINATOR_DEFAULT_OPTIONS } from '@angular/material/paginator'
-import { MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio'
-import { MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS } from '@angular/material/slide-toggle'
-import { MAT_TABS_CONFIG } from '@angular/material/tabs'
+import { Provider }                                       from '@angular/core'
 import {
   LuxonDateAdapter,
   MAT_LUXON_DATE_ADAPTER_OPTIONS,
   MAT_LUXON_DATE_FORMATS,
-} from '@angular/material-luxon-adapter'
+}                                                         from '@angular/material-luxon-adapter'
+import { MAT_CHECKBOX_DEFAULT_OPTIONS }                   from '@angular/material/checkbox'
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core'
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS }                 from '@angular/material/form-field'
+import { MAT_PAGINATOR_DEFAULT_OPTIONS }                  from '@angular/material/paginator'
+import { MAT_RADIO_DEFAULT_OPTIONS }                      from '@angular/material/radio'
+import {
+  MAT_SLIDE_TOGGLE_DEFAULT_OPTIONS,
+}                                                         from '@angular/material/slide-toggle'
+import { MAT_TABS_CONFIG }                                from '@angular/material/tabs'
+
 
 export const provideMaterialConfig = (): Provider[] => {
   return [

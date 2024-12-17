@@ -11,6 +11,11 @@ import {
 }                            from '@angular/material/dialog'
 
 
+interface ConfirmDialogData {
+  title: string,
+  action: () => void;
+}
+
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
@@ -25,8 +30,7 @@ import {
   styleUrl: './confirm-dialog.component.scss',
 })
 export class ConfirmDialogComponent {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  public readonly dialogData: { title: string, action: Function } = inject(MAT_DIALOG_DATA)
+  public readonly dialogData: ConfirmDialogData = inject(MAT_DIALOG_DATA)
 
   public confirmDeletion(): void {
     this.dialogData.action()

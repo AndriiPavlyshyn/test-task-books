@@ -1,4 +1,4 @@
-import { Book } from '../../types/global'
+import { Book } from '../../types/book'
 
 
 export const booksPlaceholder: Book[] = [

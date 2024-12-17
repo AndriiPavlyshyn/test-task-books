@@ -41,7 +41,8 @@ import {
   YearPickerComponent,
 }                                                             from '@shared/components/controls/year-picker/year-picker.component'
 
-import { Book } from '../../../../types/global'
+import { Book, BookForm } from '../../../../types/book'
+import { Maybe }          from '../../../../types/global'
 
 
 @Component({
@@ -68,65 +69,69 @@ import { Book } from '../../../../types/global'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookFormComponent implements OnInit {
-  public formGroup: FormGroup = new FormGroup({
-    title: new FormControl<string>('', [Validators.required, Validators.minLength(3)]),
-    author: new FormControl<string>('', Validators.required),
-    notes: new FormControl<string>('', [Validators.maxLength(500), Validators.minLength(10)]),
-    year: new FormControl<Date>(new Date()),
-  })
-  public readonly dialogData: { isCreate: boolean, book?: Book } = inject(MAT_DIALOG_DATA)
   private readonly bookService: BookService = inject(BookService)
-  private _snackBar = inject(MatSnackBar)
-  private dialog = inject(MatDialog)
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar)
+  private readonly dialog: MatDialog = inject(MatDialog)
+
+  public readonly dialogData: { isCreate: boolean, book?: Book } = inject(MAT_DIALOG_DATA)
+  public bookForm = new FormGroup<BookForm>({
+    title: new FormControl<Maybe<string>>(null, [Validators.required, Validators.minLength(3)]),
+    author: new FormControl<Maybe<string>>(null, Validators.required),
+    notes: new FormControl<Maybe<string>>(null, [Validators.maxLength(500), Validators.minLength(10)]),
+    year: new FormControl<Maybe<Date>>(new Date()),
+  })
 
   ngOnInit(): void {
     this.setDefaultValuesOnEdit()
   }
 
   public addBook(): void {
-    const formValue: Book = { ...this.formGroup.value, year: this.formGroup.value.year.getFullYear() }
+    const formValue: Book = this.getFormValue()
 
-    if (this.formGroup.valid) {
+    if (this.bookForm.valid) {
       this.bookService.addBook(formValue)
 
-      this._snackBar.open('Book successfully created.', 'Close', {
-        duration: 2000,
-      })
+      this.bookFormSnack('Book successfully created.')
 
       this.dialog.closeAll()
+      return
     }
-    else {
-      this.formGroup.markAllAsTouched()
 
-      this._snackBar.open('Not all fields are valid.', 'Close', {
-        duration: 2000,
-      })
-    }
+    this.bookForm.markAllAsTouched()
+
+    this.bookFormSnack('Not all fields are valid.')
   }
 
   public editBook(): void {
-    const formValue: Book = { ...this.formGroup.value, year: this.formGroup.value.year.getFullYear() }
+    const formValue: Book = this.getFormValue()
 
-    if (this.formGroup.valid) {
+    if (this.bookForm.valid) {
       this.bookService.editBook(this.dialogData.book?.id, formValue)
 
-      this._snackBar.open('Book completely edited.', 'Close', {
-        duration: 2000,
-      })
+      this.bookFormSnack('Book completely edited.')
 
       this.dialog.closeAll()
+      return
     }
-    else {
-      this.formGroup.markAllAsTouched()
 
-      this._snackBar.open('Not all fields are valid.', 'Close', {
-        duration: 2000,
-      })
-    }
+    this.bookFormSnack('Not all fields are valid.')
   }
 
   public deleteBook(): void {
     this.bookService.deleteBook(this.dialogData.book)
+  }
+
+  private bookFormSnack(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    })
+  }
+
+  private getFormValue(): Book {
+    return {
+      ...this.bookForm.value as Book,
+      year: (this.bookForm.value as Book<Date>).year?.getFullYear(),
+    }
   }
 
   private setDefaultValuesOnEdit(): void {
@@ -134,27 +139,17 @@ export class BookFormComponent implements OnInit {
       return
     }
 
-    const defaultBook: Book<Date> = {
-      title: '',
-      author: '',
-      notes: '',
-      year: new Date(),
-    }
-
     const bookFromDialog: Book = this.dialogData.book
 
-    const formattedYear = bookFromDialog.year
+    const formattedYear: Date = bookFromDialog.year
       ? new Date(bookFromDialog.year, 0, 1)
-      : defaultBook.year
+      : new Date()
 
-    const bookToSet: Book<Date> = {
-      ...defaultBook,
-      ...bookFromDialog,
+    this.bookForm.setValue({
+      title: bookFromDialog.title || null,
+      author: bookFromDialog.author || null,
+      notes: bookFromDialog.notes || null,
       year: formattedYear,
-    }
-
-    delete bookToSet.id
-
-    this.formGroup.setValue(bookToSet)
+    })
   }
 }

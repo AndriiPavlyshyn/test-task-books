@@ -1,12 +1,12 @@
 <h2 mat-dialog-title>{{ dialogData.isCreate ? 'Add New Book' : dialogData.book?.title }}</h2>
 <mat-dialog-content>
-  <form [formGroup]="formGroup" class="book-form flex flex-col gap-2 pt-1">
+  <form [formGroup]="bookForm" class="book-form flex flex-col gap-2 pt-1">
     <mat-form-field class="ng-invalid">
       <mat-label>Book title *</mat-label>
       <input formControlName="title" matInput placeholder="Book title" required>
 
       <mat-error>
-        <app-control-errors [control]="formGroup.controls['title']" />
+        <app-control-errors [control]="bookForm.controls['title']" />
       </mat-error>
     </mat-form-field>
 
@@ -15,7 +15,7 @@
       <input formControlName="author" matInput placeholder="Book Author">
 
       <mat-error>
-        <app-control-errors [control]="formGroup.controls['author']" />
+        <app-control-errors [control]="bookForm.controls['author']" />
       </mat-error>
     </mat-form-field>
 
@@ -26,24 +26,31 @@
       <textarea formControlName="notes" matInput placeholder="Book notes"></textarea>
 
       <mat-error>
-        <app-control-errors [control]="formGroup.controls['notes']" />
+        <app-control-errors [control]="bookForm.controls['notes']" />
       </mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  @if (!dialogData.isCreate) {
-    <button
-      (click)="deleteBook()"
-      mat-button
-    >
-      Delete book
-    </button>
-  }
-  <button
-    (click)="dialogData.isCreate ? addBook() : editBook()"
-    mat-button
-  >{{ dialogData.isCreate ? 'Add Book' : 'Edit Book' }}
-  </button>
-  <button cdkFocusInitial mat-button mat-dialog-close>Cancel</button>
+  <div class="flex justify-between w-full">
+    <div class="delete-button-container">
+      @if (!dialogData.isCreate) {
+        <button
+          (click)="deleteBook()"
+          mat-button
+        >
+          Delete book
+        </button>
+      }
+    </div>
+
+    <div class="right">
+      <button
+        (click)="dialogData.isCreate ? addBook() : editBook()"
+        mat-button
+      >{{ dialogData.isCreate ? 'Add Book' : 'Edit Book' }}
+      </button>
+      <button cdkFocusInitial mat-button mat-dialog-close>Cancel</button>
+    </div>
+  </div>
 </mat-dialog-actions>

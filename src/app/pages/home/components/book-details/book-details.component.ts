@@ -17,8 +17,10 @@ import {
   BookService,
 }                            from '@services/book.service'
 import {
-  Book,
-}                            from '../../../../types/global'
+  dialogSizes,
+}                            from '../../../../common/dialog-sizes'
+
+import { Book } from '../../../../types/book'
 
 
 @Component({
@@ -35,9 +37,10 @@ import {
   styleUrl: './book-details.component.scss',
 })
 export class BookDetailsComponent {
-  public readonly dialogData: { book: Book } = inject(MAT_DIALOG_DATA)
-  private dialog = inject(MatDialog)
   private readonly bookService: BookService = inject(BookService)
+  private readonly dialog: MatDialog = inject(MatDialog)
+
+  public readonly dialogData: { book: Book } = inject(MAT_DIALOG_DATA)
 
   public onDelete(): void {
     this.bookService.deleteBook(this.dialogData.book)
@@ -45,8 +48,7 @@ export class BookDetailsComponent {
 
   public onEdit(): void {
     this.dialog.open(BookFormComponent, {
-      maxWidth: '700px',
-      width: '100vw',
+      ...dialogSizes,
       data: {
         isCreate: false,
         book: this.dialogData.book,
