@@ -1,14 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
-import { Book } from '../../types/book'
+import { Book }  from '../../types/book'
+import { Maybe } from '../../types/global'
 
 
 @Pipe({
-  name: 'booksFilterPipe',
+  name: 'booksFilter',
   standalone: true,
 })
 export class BooksFilterPipe implements PipeTransform {
-  transform(items: Book[], searchText: string): Book[] {
+  transform(items: Maybe<Book[]>, searchText: string): Book[] {
     if (!items) {
       return []
     }
@@ -19,10 +20,16 @@ export class BooksFilterPipe implements PipeTransform {
 
     searchText = searchText.toLocaleLowerCase()
 
-    return [...new Set(['author', 'title'].map((key: string) => {
-      return items.filter((item: Book) => {
-        return (item[key as keyof Book] as string).toLocaleLowerCase().includes(searchText)
-      })
-    }).flat(2))]
+    const searchableBooks = new Set<Book>(['author', 'title']
+      .map((key: string) => {
+        return items
+          .filter((item: Book) => {
+            return (item[key as keyof Book] as string)
+              .toLocaleLowerCase()
+              .includes(searchText)
+          })
+      }).flat(2))
+
+    return [...searchableBooks]
   }
 }

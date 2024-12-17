@@ -6,7 +6,7 @@
   <mat-icon fontIcon="search" matPrefix></mat-icon>
 </mat-form-field>
 
-<ng-container *ngIf="(books | async) || [] | booksFilterPipe: search() as bookList">
+<ng-container *ngIf="(books | async) | booksFilter: search() as bookList">
   @if (bookList.length) {
     <div
       @listAnimation

@@ -13,8 +13,7 @@ import {
 
 interface ConfirmDialogData {
   title: string,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  action: Function
+  action: () => void;
 }
 
 @Component({

@@ -10,6 +10,7 @@ import {
   BookFormComponent,
 }                                                                               from '@pages/home/components/book-form/book-form.component'
 import { BookService }                                                          from '@services/book.service'
+import { dialogSizes }                                                          from '../../../../common/dialog-sizes'
 
 import { TruncatePipe } from '../../../../pipes/truncate-pipe/truncate.pipe'
 import { Book }         from '../../../../types/book'
@@ -33,6 +34,7 @@ import { Book }         from '../../../../types/book'
 export class BooksGridItemComponent {
   private readonly bookService: BookService = inject(BookService)
   private readonly dialog: MatDialog = inject(MatDialog)
+
   public book = input<Book>()
 
   public onEdit(): void {
@@ -54,8 +56,7 @@ export class BooksGridItemComponent {
 
   openDialog<T, D>(component: ComponentType<T>, data: D): void {
     this.dialog.open(component, {
-      maxWidth: '700px',
-      width: '95vw',
+      ...dialogSizes,
       data,
     })
   }

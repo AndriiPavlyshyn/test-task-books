@@ -16,6 +16,9 @@ import {
 import {
   BookService,
 }                            from '@services/book.service'
+import {
+  dialogSizes,
+}                            from '../../../../common/dialog-sizes'
 
 import { Book } from '../../../../types/book'
 
@@ -45,8 +48,7 @@ export class BookDetailsComponent {
 
   public onEdit(): void {
     this.dialog.open(BookFormComponent, {
-      maxWidth: '700px',
-      width: '95vw',
+      ...dialogSizes,
       data: {
         isCreate: false,
         book: this.dialogData.book,

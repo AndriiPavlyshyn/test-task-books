@@ -4,6 +4,7 @@ import { MatSnackBar }            from '@angular/material/snack-bar'
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component'
 import { booksPlaceholder }       from '@shared/temp/books-placeholder'
 import { BehaviorSubject }        from 'rxjs'
+import { dialogSizes }            from '../common/dialog-sizes'
 
 import { Book }  from '../types/book'
 import { Maybe } from '../types/global'
@@ -37,8 +38,7 @@ export class BookService {
     if (!bookToDelete) {return}
 
     this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: '500px',
-      width: '95vw',
+      ...dialogSizes,
       data: {
         title: `Do you really want to delete ${bookToDelete.title}?`,
         action: () => {
@@ -46,6 +46,7 @@ export class BookService {
 
           this.books.next(books.filter((book: Book) => book.id !== bookToDelete.id))
           this.dialog.closeAll()
+          
           this.snackBar.open('Book successfully deleted.', 'Close', {
             duration: 2000,
           })
