@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core'
 import { MatButton }                 from '@angular/material/button'
 import { MatDialog }                 from '@angular/material/dialog'
+import { Title }                     from '@angular/platform-browser'
 import { ActivatedRoute }            from '@angular/router'
 import { BookFormComponent }         from '@pages/home/components/book-form/book-form.component'
 
@@ -17,10 +18,14 @@ import { BookFormComponent }         from '@pages/home/components/book-form/book
 export class HeaderComponent {
   private readonly route = inject<ActivatedRoute>(ActivatedRoute)
   private readonly dialog = inject(MatDialog)
+  public readonly pageTitle: Title = inject(Title)
   public title = signal<string>('')
 
   constructor() {
-    this.title.set(this.route.snapshot.data['title'])
+    const title: string = this.route.snapshot.data['title']
+
+    this.title.set(title)
+    this.pageTitle.setTitle(title)
   }
 
   public onAdd(): void {
