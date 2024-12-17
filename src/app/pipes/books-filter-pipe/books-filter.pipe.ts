@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { Book }                from '../../types/book'
+
+import { Book } from '../../types/book'
 
 
 @Pipe({
@@ -18,10 +19,10 @@ export class BooksFilterPipe implements PipeTransform {
 
     searchText = searchText.toLocaleLowerCase()
 
-    return ['author', 'title'].map((key: string) => {
+    return [...new Set(['author', 'title'].map((key: string) => {
       return items.filter((item: Book) => {
         return (item[key as keyof Book] as string).toLocaleLowerCase().includes(searchText)
       })
-    }).flat(2)
+    }).flat(2))]
   }
 }

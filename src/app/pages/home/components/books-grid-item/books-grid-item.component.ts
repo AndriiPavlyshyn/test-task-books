@@ -1,3 +1,4 @@
+import { ComponentType }                                                        from '@angular/cdk/overlay'
 import { Component, inject, input }                                             from '@angular/core'
 import { MatButton }                                                            from '@angular/material/button'
 import { MatCard, MatCardContent, MatCardFooter, MatCardHeader, MatCardModule } from '@angular/material/card'
@@ -11,7 +12,7 @@ import {
 import { BookService }                                                          from '@services/book.service'
 
 import { TruncatePipe } from '../../../../pipes/truncate-pipe/truncate.pipe'
-import { Book }          from '../../../../types/book'
+import { Book }         from '../../../../types/book'
 
 
 @Component({
@@ -30,18 +31,14 @@ import { Book }          from '../../../../types/book'
   styleUrl: './books-grid-item.component.scss',
 })
 export class BooksGridItemComponent {
+  private readonly bookService: BookService = inject(BookService)
+  private readonly dialog: MatDialog = inject(MatDialog)
   public book = input<Book>()
-  private dialog: MatDialog = inject(MatDialog)
-  private bookService: BookService = inject(BookService)
 
   public onEdit(): void {
-    this.dialog.open(BookFormComponent, {
-      maxWidth: '700px',
-      width: '100vw',
-      data: {
-        isCreate: false,
-        book: this.book(),
-      },
+    this.openDialog(BookFormComponent, {
+      isCreate: false,
+      book: this.book(),
     })
   }
 
@@ -50,12 +47,16 @@ export class BooksGridItemComponent {
   }
 
   public showDetails(): void {
-    this.dialog.open(BookDetailsComponent, {
+    this.openDialog(BookDetailsComponent, {
+      book: this.book(),
+    })
+  }
+
+  openDialog<T, D>(component: ComponentType<T>, data: D): void {
+    this.dialog.open(component, {
       maxWidth: '700px',
-      width: '100vw',
-      data: {
-        book: this.book(),
-      },
+      width: '95vw',
+      data,
     })
   }
 }

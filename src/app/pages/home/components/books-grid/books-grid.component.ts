@@ -41,7 +41,8 @@ import { BooksGridItemComponent } from '../books-grid-item/books-grid-item.compo
   styleUrl: './books-grid.component.scss',
 })
 export class BooksGridComponent {
-  public search = signal<string>('')
-  private bookService: BookService = inject(BookService)
+  private readonly bookService: BookService = inject(BookService)
+
   public readonly books: BehaviorSubject<Book[]> = this.bookService.books
+  public search = signal<string>('')
 }

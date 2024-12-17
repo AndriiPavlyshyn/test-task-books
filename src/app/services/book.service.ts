@@ -1,10 +1,11 @@
 import { inject, Injectable }     from '@angular/core'
 import { MatDialog }              from '@angular/material/dialog'
+import { MatSnackBar }            from '@angular/material/snack-bar'
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component'
 import { booksPlaceholder }       from '@shared/temp/books-placeholder'
 import { BehaviorSubject }        from 'rxjs'
-import { Book }                   from '../types/book'
 
+import { Book }  from '../types/book'
 import { Maybe } from '../types/global'
 
 
@@ -12,8 +13,10 @@ import { Maybe } from '../types/global'
   providedIn: 'root',
 })
 export class BookService {
+  private readonly dialog: MatDialog = inject(MatDialog)
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar)
+
   public books = new BehaviorSubject<Book[]>(booksPlaceholder)
-  private dialog: MatDialog = inject(MatDialog)
 
   public addBook(book: Book): void {
     const books: Book[] = this.books.getValue()
@@ -35,7 +38,7 @@ export class BookService {
 
     this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '500px',
-      width: '100vw',
+      width: '95vw',
       data: {
         title: `Do you really want to delete ${bookToDelete.title}?`,
         action: () => {
@@ -43,6 +46,9 @@ export class BookService {
 
           this.books.next(books.filter((book: Book) => book.id !== bookToDelete.id))
           this.dialog.closeAll()
+          this.snackBar.open('Book successfully deleted.', 'Close', {
+            duration: 2000,
+          })
         },
       },
     })

@@ -15,9 +15,9 @@ import { BookFormComponent }         from '@pages/home/components/book-form/book
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  private readonly route = inject<ActivatedRoute>(ActivatedRoute)
+  private readonly dialog = inject(MatDialog)
   public title = signal<string>('')
-  private route = inject<ActivatedRoute>(ActivatedRoute)
-  private dialog = inject(MatDialog)
 
   constructor() {
     this.title.set(this.route.snapshot.data['title'])
@@ -26,7 +26,7 @@ export class HeaderComponent {
   public onAdd(): void {
     this.dialog.open(BookFormComponent, {
       maxWidth: '700px',
-      width: '100vw',
+      width: '95vw',
       data: {
         isCreate: true,
       },

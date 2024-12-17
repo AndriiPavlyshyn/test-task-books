@@ -42,7 +42,7 @@ import {
 }                                                             from '@shared/components/controls/year-picker/year-picker.component'
 
 import { Book, BookForm } from '../../../../types/book'
-import { Maybe }           from '../../../../types/global'
+import { Maybe }          from '../../../../types/global'
 
 
 @Component({
@@ -69,16 +69,17 @@ import { Maybe }           from '../../../../types/global'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookFormComponent implements OnInit {
-  public formGroup = new FormGroup<BookForm>({
+  private readonly bookService: BookService = inject(BookService)
+  private readonly snackBar: MatSnackBar = inject(MatSnackBar)
+  private readonly dialog: MatDialog = inject(MatDialog)
+
+  public readonly dialogData: { isCreate: boolean, book?: Book } = inject(MAT_DIALOG_DATA)
+  public bookForm = new FormGroup<BookForm>({
     title: new FormControl<Maybe<string>>(null, [Validators.required, Validators.minLength(3)]),
     author: new FormControl<Maybe<string>>(null, Validators.required),
     notes: new FormControl<Maybe<string>>(null, [Validators.maxLength(500), Validators.minLength(10)]),
     year: new FormControl<Maybe<Date>>(new Date()),
   })
-  public readonly dialogData: { isCreate: boolean, book?: Book } = inject(MAT_DIALOG_DATA)
-  private readonly bookService: BookService = inject(BookService)
-  private _snackBar: MatSnackBar = inject(MatSnackBar)
-  private dialog: MatDialog = inject(MatDialog)
 
   ngOnInit(): void {
     this.setDefaultValuesOnEdit()
@@ -87,53 +88,49 @@ export class BookFormComponent implements OnInit {
   public addBook(): void {
     const formValue: Book = this.getFormValue()
 
-    if (this.formGroup.valid) {
+    if (this.bookForm.valid) {
       this.bookService.addBook(formValue)
 
-      this._snackBar.open('Book successfully created.', 'Close', {
-        duration: 2000,
-      })
+      this.bookFormSnack('Book successfully created.')
 
       this.dialog.closeAll()
+      return
     }
-    else {
-      this.formGroup.markAllAsTouched()
 
-      this._snackBar.open('Not all fields are valid.', 'Close', {
-        duration: 2000,
-      })
-    }
+    this.bookForm.markAllAsTouched()
+
+    this.bookFormSnack('Not all fields are valid.')
   }
 
   public editBook(): void {
     const formValue: Book = this.getFormValue()
 
-    if (this.formGroup.valid) {
+    if (this.bookForm.valid) {
       this.bookService.editBook(this.dialogData.book?.id, formValue)
 
-      this._snackBar.open('Book completely edited.', 'Close', {
-        duration: 2000,
-      })
+      this.bookFormSnack('Book completely edited.')
 
       this.dialog.closeAll()
+      return
     }
-    else {
-      this.formGroup.markAllAsTouched()
 
-      this._snackBar.open('Not all fields are valid.', 'Close', {
-        duration: 2000,
-      })
-    }
+    this.bookFormSnack('Not all fields are valid.')
   }
 
   public deleteBook(): void {
     this.bookService.deleteBook(this.dialogData.book)
   }
 
+  private bookFormSnack(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+    })
+  }
+
   private getFormValue(): Book {
     return {
-      ...this.formGroup.value as Book,
-      year: (this.formGroup.value as Book<Date>).year?.getFullYear(),
+      ...this.bookForm.value as Book,
+      year: (this.bookForm.value as Book<Date>).year?.getFullYear(),
     }
   }
 
@@ -148,7 +145,7 @@ export class BookFormComponent implements OnInit {
       ? new Date(bookFromDialog.year, 0, 1)
       : new Date()
 
-    this.formGroup.setValue({
+    this.bookForm.setValue({
       title: bookFromDialog.title || null,
       author: bookFromDialog.author || null,
       notes: bookFromDialog.notes || null,
